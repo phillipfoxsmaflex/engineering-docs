@@ -18,6 +18,11 @@ async def shutdown():
 def read_root():
     return {"message": "Welcome to the Engineering Document Management System"}
 
+# Health check endpoint
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 # Include routers
 app.include_router(users.router)
 app.include_router(auth.router)

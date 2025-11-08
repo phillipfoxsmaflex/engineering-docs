@@ -1,8 +1,10 @@
 
-fastapi
-uvicorn
-sqlalchemy
-databases
+fastapi==0.109.2
+uvicorn==0.27.0
+sqlalchemy==2.0.25
+databases==0.8.0
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
 pytest
 httpx
 pytest-asyncio

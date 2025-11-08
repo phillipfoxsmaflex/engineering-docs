@@ -9,10 +9,11 @@ from models.document import Document, DocumentVersion
 from models.folder import Folder
 from core.security import get_password_hash
 
-DATABASE_URL = "sqlite:///./test.db"
+# Use environment variables for database configuration
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
 
 def init_db():
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+    engine = create_engine(DATABASE_URL)
 
     # Create tables
     Base.metadata.create_all(bind=engine)
@@ -22,7 +23,7 @@ def init_db():
 
 def create_admin_user_if_not_exists():
     """Create an admin user if no users exist in the database."""
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+    engine = create_engine(DATABASE_URL)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     session = SessionLocal()
 

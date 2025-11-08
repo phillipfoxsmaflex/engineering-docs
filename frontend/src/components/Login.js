@@ -29,6 +29,11 @@ const Login = ({ onLogin }) => {
   return (
     <div>
       <h2>Login</h2>
+      <p>For first-time setup, use the default admin credentials:</p>
+      <ul>
+        <li><strong>Username:</strong> admin</li>
+        <li><strong>Password:</strong> password123</li>
+      </ul>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username:</label>

@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import DocumentStatus from './DocumentStatus';
 import DocumentVersionUpload from './DocumentVersionUpload';
+import DocumentVersions from './DocumentVersions';
 
 const Document = ({ document }) => {
   const [status, setStatus] = useState(document.status);
@@ -17,6 +18,7 @@ const Document = ({ document }) => {
         <p><strong>Description:</strong> {document.description}</p>
       )}
       <DocumentVersionUpload documentId={document.id} />
+      <DocumentVersions documentId={document.id} />
       <DocumentStatus documentId={document.id} status={status} onStatusChange={setStatus} />
     </div>
   );

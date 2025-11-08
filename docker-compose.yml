@@ -1,0 +1,50 @@
+
+
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: engineering_docs_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=sqlite:///./test.db
+      - SECRET_KEY=your_secret_key
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: engineering_docs_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:8000
+    command: npm start
+
+  # Optional: Add a database service if you want to use PostgreSQL instead of SQLite
+  # db:
+  #   image: postgres:13
+  #   container_name: engineering_docs_db
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: engineering_docs
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# Optional: Add a volume for PostgreSQL data persistence
+# volumes:
+#   postgres_data:
+

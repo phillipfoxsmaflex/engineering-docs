@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import './components/styles.css';
 import FolderBrowser from './components/FolderBrowser';
 import DocumentList from './components/DocumentList';
 import DocumentUpload from './components/DocumentUpload';
@@ -20,10 +21,10 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="App container">
+      <header className="header">
         <h1>Engineering Document Management System</h1>
-        <button onClick={() => setShowDashboard(!showDashboard)}>
+        <button className="button button-primary" onClick={() => setShowDashboard(!showDashboard)}>
           {showDashboard ? 'Hide Dashboard' : 'Show Dashboard'}
         </button>
       </header>

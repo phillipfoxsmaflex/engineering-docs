@@ -1,6 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
+import './styles.css';
 import api from '../api';
 
 const Folder = ({ folderId, name, onSelect }) => {
@@ -31,7 +32,11 @@ const Folder = ({ folderId, name, onSelect }) => {
 
   return (
     <div>
-      <div onClick={handleToggle} style={{ cursor: 'pointer', marginLeft: '10px' }}>
+      <div
+        className="button button-secondary"
+        style={{ cursor: 'pointer', marginLeft: '10px' }}
+        onClick={handleToggle}
+      >
         {expanded ? '▼' : '►'} {name}
       </div>
       {expanded && (

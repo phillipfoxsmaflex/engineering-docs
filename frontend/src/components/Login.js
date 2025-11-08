@@ -4,6 +4,7 @@
 
 
 import React, { useState } from 'react';
+import './styles.css';
 import api from '../api';
 
 const Login = ({ onLogin }) => {
@@ -27,33 +28,35 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Login</h2>
       <p>For first-time setup, use the default admin credentials:</p>
       <ul>
         <li><strong>Username:</strong> admin</li>
         <li><strong>Password:</strong> password123</li>
       </ul>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
+      <form className="form-group" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
           <input
+            id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button className="button button-primary" type="submit">Login</button>
       </form>
     </div>
   );

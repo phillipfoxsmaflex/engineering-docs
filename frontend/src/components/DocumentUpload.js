@@ -2,6 +2,7 @@
 
 
 import React, { useState } from 'react';
+import './styles.css';
 import api from '../api';
 
 const DocumentUpload = ({ folderId }) => {
@@ -46,41 +47,45 @@ const DocumentUpload = ({ folderId }) => {
   return (
     <div>
       <h2>Upload Document</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
+      <form className="form-group" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">Title:</label>
           <input
+            id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Document Number:</label>
+        <div className="form-group">
+          <label htmlFor="documentNumber">Document Number:</label>
           <input
+            id="documentNumber"
             type="text"
             value={documentNumber}
             onChange={(e) => setDocumentNumber(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Description:</label>
+        <div className="form-group">
+          <label htmlFor="description">Description:</label>
           <textarea
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
         </div>
-        <div>
-          <label>File:</label>
+        <div className="form-group">
+          <label htmlFor="file">File:</label>
           <input
+            id="file"
             type="file"
             onChange={(e) => setFile(e.target.files[0])}
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
+        <button className="button button-primary" type="submit" disabled={loading}>
           {loading ? 'Uploading...' : 'Upload'}
         </button>
       </form>

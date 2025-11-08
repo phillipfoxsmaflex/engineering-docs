@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI
 from .database import database
-from .routes import users, auth, me
+from .routes import users, auth, me, folders, documents, document_versions, document_status
 
 app = FastAPI()
 
@@ -22,4 +22,8 @@ def read_root():
 app.include_router(users.router)
 app.include_router(auth.router)
 app.include_router(me.router)
+app.include_router(folders.router)
+app.include_router(documents.router)
+app.include_router(document_versions.router)
+app.include_router(document_status.router)
 

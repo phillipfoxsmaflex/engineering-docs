@@ -3,9 +3,19 @@ import './App.css';
 import FolderBrowser from './components/FolderBrowser';
 import DocumentList from './components/DocumentList';
 import DocumentUpload from './components/DocumentUpload';
+import Login from './components/Login';
 
 function App() {
   const [selectedFolderId, setSelectedFolderId] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  if (!isAuthenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
 
   return (
     <div className="App">

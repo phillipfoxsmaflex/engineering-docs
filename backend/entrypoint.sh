@@ -1,6 +1,6 @@
 
 
-#!/bin/bash
+#!/bin/sh
 set -e
 
 # Start PostgreSQL in the background

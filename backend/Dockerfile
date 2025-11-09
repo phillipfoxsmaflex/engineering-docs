@@ -16,6 +16,7 @@ RUN apt-get update && \
     libpq-dev \
     netcat-openbsd \
     curl \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir -r requirements.txt
 
@@ -31,7 +32,9 @@ HEALTHCHECK --interval=30s --timeout=5s \
 
 # Copy simple entrypoint script and make it executable
 COPY simple-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/simple-entrypoint.sh
+COPY create-user.sh /app/
+RUN chmod +x /usr/local/bin/simple-entrypoint.sh && \
+    chmod +x /app/create-user.sh
 
 # Set the entrypoint to our custom script
 ENTRYPOINT ["/usr/local/bin/simple-entrypoint.sh"]

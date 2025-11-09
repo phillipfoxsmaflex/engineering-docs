@@ -1,8 +1,8 @@
 
 
 from fastapi import FastAPI
-from .database import database
-from .routes import users, auth, me, folders, documents, document_versions, document_status
+from database import database
+from routes import users, auth, me, folders, documents, document_versions, document_status
 
 app = FastAPI()
 

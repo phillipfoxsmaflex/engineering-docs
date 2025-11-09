@@ -1,6 +1,3 @@
-
-
-
 #!/bin/sh
 set -e
 
@@ -14,5 +11,3 @@ echo "Database is ready!"
 # Run the application as non-root user
 echo "Starting application..."
 exec gosu appuser uvicorn main:app --host 0.0.0.0 --port 8000
-
-

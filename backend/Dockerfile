@@ -15,12 +15,9 @@ RUN apt-get update && \
     build-essential \
     libpq-dev \
     netcat-openbsd \
-    gosu \
+    curl \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir -r requirements.txt
-
-# Create a non-root user to run the application
-RUN useradd -m appuser && chown -R appuser:appuser /app
 
 # Copy the rest of the application code to the container
 COPY . .
@@ -34,13 +31,11 @@ HEALTHCHECK --interval=30s --timeout=5s \
 
 # Copy simple entrypoint script and make it executable
 COPY simple-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/simple-entrypoint.sh && \
-    chown appuser:appuser /usr/local/bin/simple-entrypoint.sh
+RUN chmod +x /usr/local/bin/simple-entrypoint.sh
 
 # Set the entrypoint to our custom script
 ENTRYPOINT ["/usr/local/bin/simple-entrypoint.sh"]
 
-# Run uvicorn server when the container launches as non-root user
-USER appuser
+# Default command (will be overridden by entrypoint)
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 

@@ -8,6 +8,6 @@ while ! nc -z db 5432; do
 done
 echo "Database is ready!"
 
-# Run the application as non-root user
+# Run the application directly (without user switching to avoid permission issues)
 echo "Starting application..."
-exec gosu appuser uvicorn main:app --host 0.0.0.0 --port 8000
+exec uvicorn main:app --host 0.0.0.0 --port 8000

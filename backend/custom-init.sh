@@ -1,26 +1,20 @@
 
 
-#!/bin/sh
+#!/bin/bash
 set -e
 
-# Wait for PostgreSQL to start
-echo "Waiting for PostgreSQL to start..."
-while ! pg_isready -h localhost; do
-  sleep 1
-done
-echo "PostgreSQL is ready!"
+echo "Creating appuser role..."
 
-# Connect to PostgreSQL and create the appuser role if it doesn't exist
-export PGPASSWORD=${POSTGRES_PASSWORD}
-psql -v ON_ERROR_STOP=1 --username postgres <<-EOSQL
-  DO $$
+# Create the appuser role if it doesn't exist
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+  DO \$\$
   BEGIN
     IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'appuser') THEN
-      PERFORM dml_instead_of_trigger_prologue();
-      CREATE ROLE appuser WITH LOGIN PASSWORD '${APPUSER_PASSWORD}';
+      CREATE ROLE appuser WITH LOGIN PASSWORD '$APPUSER_PASSWORD';
       ALTER ROLE appuser CREATEDB;
+      GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO appuser;
     END IF;
-  END $$;
+  END \$\$;
 EOSQL
 
 echo "PostgreSQL initialization complete!"

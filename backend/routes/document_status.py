@@ -5,10 +5,10 @@ from fastapi import APIRouter, HTTPException, Depends, Form
 from pydantic import BaseModel
 from typing import List
 
-from ..database import database
-from ..models.document import Document as DocumentModel
-from ..core.deps import get_current_user
-from ..models.user import User as UserModel
+from database import database
+from models.document import Document as DocumentModel
+from core.deps import get_current_user
+from models.user import User as UserModel
 
 router = APIRouter(
     prefix="/document-status",

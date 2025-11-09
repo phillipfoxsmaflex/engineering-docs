@@ -6,8 +6,8 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from ..core.deps import get_current_user
-from ..models.user import User as UserModel
+from core.deps import get_current_user
+from models.user import User as UserModel
 
 router = APIRouter(
     prefix="/me",

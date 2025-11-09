@@ -67,32 +67,39 @@ REACT_APP_API_URL=http://localhost:8000/api
 
 ## Nächste Schritte für lokales Deployment:
 
-### Option 1: Saubere Neuinitialisierung (empfohlen)
-1. **Database und Volumes zurücksetzen**:
-   ```bash
-   ./reset-database.sh
-   ```
+### ⭐ Option 1: Saubere Neuinitialisierung (EMPFOHLEN)
+```bash
+# Vollständiger Reset aller Volumes und Container
+./reset-database.sh
 
-2. **Neue Deployment starten**:
-   ```bash
-   docker compose up --build
-   ```
+# Sauberes Deployment starten
+docker compose up --build
+```
 
-### Option 2: Mit existierender Datenbank
-1. **Container aufräumen**:
-   ```bash
-   docker compose down
-   ```
+### 🔧 Option 2: Existierende Datenbank reparieren
+```bash
+# Automatische Reparatur der existierenden Datenbank
+./fix-existing-database.sh
+```
 
-2. **Neue Deployment starten**:
-   ```bash
-   docker compose up --build
-   ```
+### 🛠️ Option 3: Manuelle Reparatur
+```bash
+# Container stoppen
+docker compose down -v
 
-3. **Logs überwachen**:
-   ```bash
-   docker compose logs -f backend
-   ```
+# Nur Datenbank starten und manuell reparieren
+docker compose up -d db
+docker compose exec db sh
+# Im Container: su-exec postgres psql -d postgres
+# CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres_password';
+```
+
+### 📋 Logs überwachen:
+```bash
+docker compose logs -f backend  # Backend-Logs
+docker compose logs -f db       # Datenbank-Logs
+docker compose logs -f          # Alle Services
+```
 
 ## Erwartetes Verhalten:
 - PostgreSQL startet mit `postgres` als Superuser

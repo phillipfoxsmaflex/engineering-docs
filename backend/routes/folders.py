@@ -3,10 +3,10 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List
 
-from ..database import database
-from ..models.folder import Folder as FolderModel
-from ..core.deps import get_current_user
-from ..models.user import User as UserModel
+from database import database
+from models.folder import Folder as FolderModel
+from core.deps import get_current_user
+from models.user import User as UserModel
 
 router = APIRouter(
     prefix="/folders",

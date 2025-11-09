@@ -6,9 +6,9 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List
 
-from ..database import database
-from ..models.user import User as UserModel
-from ..core.security import verify_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES, get_password_hash
+from database import database
+from models.user import User as UserModel
+from core.security import verify_password, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES, get_password_hash
 from datetime import timedelta
 import sqlalchemy
 

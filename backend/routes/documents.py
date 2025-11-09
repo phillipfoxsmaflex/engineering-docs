@@ -7,11 +7,11 @@ from fastapi import APIRouter, HTTPException, Depends, File, UploadFile, Form
 from pydantic import BaseModel
 from typing import List
 
-from ..database import database
-from ..models.document import Document as DocumentModel, DocumentVersion as DocumentVersionModel
-from ..core.deps import get_current_user
-from ..models.user import User as UserModel
-from ..models.folder import Folder as FolderModel
+from database import database
+from models.document import Document as DocumentModel, DocumentVersion as DocumentVersionModel
+from core.deps import get_current_user
+from models.user import User as UserModel
+from models.folder import Folder as FolderModel
 
 router = APIRouter(
     prefix="/documents",

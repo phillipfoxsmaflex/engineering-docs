@@ -26,8 +26,7 @@ class FolderUpdate(FolderBase):
 class FolderRead(FolderBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 @router.post("/", response_model=FolderRead)
 async def create_folder(folder: FolderCreate, current_user: UserModel = Depends(get_current_user)):

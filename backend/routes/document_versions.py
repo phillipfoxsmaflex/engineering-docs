@@ -35,8 +35,7 @@ class DocumentVersionRead(DocumentVersionBase):
     id: int
     uploaded_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 @router.post("/", response_model=DocumentVersionRead)
 async def create_document_version(

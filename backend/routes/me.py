@@ -21,8 +21,7 @@ class UserRead(BaseModel):
     is_active: bool
     is_admin: bool
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 @router.get("/", response_model=UserRead)
 async def read_users_me(current_user: UserModel = Depends(get_current_user)):

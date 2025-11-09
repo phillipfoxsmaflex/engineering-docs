@@ -37,8 +37,7 @@ class DocumentRead(DocumentBase):
     created_at: datetime
     status: str
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 @router.post("/", response_model=DocumentRead)
 async def create_document(

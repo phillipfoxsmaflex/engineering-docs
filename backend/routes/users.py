@@ -26,8 +26,7 @@ class UserRead(BaseModel):
     is_active: bool
     is_admin: bool
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 @router.post("/", response_model=UserRead)
 async def create_user(user: UserCreate):

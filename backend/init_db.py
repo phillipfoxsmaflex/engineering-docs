@@ -14,7 +14,7 @@ from core.security import get_password_hash
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
 
 def create_db_and_user():
-    """Create the PostgreSQL user and database if they don't exist."""
+    """Create the PostgreSQL user, role and database if they don't exist."""
     try:
         # Extract credentials from DATABASE_URL
         import re
@@ -37,6 +37,14 @@ def create_db_and_user():
 
         cursor = conn.cursor()
 
+        # Create the role if it doesn't exist
+        cursor.execute(f"SELECT 1 FROM pg_roles WHERE rolname='{db_user}'")
+        if not cursor.fetchone():
+            print(f"Creating role {db_user}...")
+            cursor.execute(f"CREATE ROLE {db_user} WITH LOGIN PASSWORD '{db_password}'")
+        else:
+            print(f"Role {db_user} already exists.")
+
         # Create the database if it doesn't exist
         cursor.execute(f"SELECT 1 FROM pg_database WHERE datname='{db_name}'")
         if not cursor.fetchone():
@@ -45,12 +53,15 @@ def create_db_and_user():
         else:
             print(f"Database {db_name} already exists.")
 
+        # Grant all privileges on the database to the user
+        cursor.execute(f"GRANT ALL PRIVILEGES ON DATABASE {db_name} TO {db_user}")
+
         # Close the connection and reconnect to the specific database
         cursor.close()
         conn.close()
 
     except Exception as e:
-        print(f"Error creating database: {e}")
+        print(f"Error creating database or role: {e}")
 
 
 def init_db():

@@ -32,13 +32,13 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s \
   CMD curl -f http://localhost:8000/health || exit 1
 
-# Copy entrypoint script and make it executable
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh && \
-    chown appuser:appuser /usr/local/bin/docker-entrypoint.sh
+# Copy new entrypoint script and make it executable
+COPY new-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/new-entrypoint.sh && \
+    chown appuser:appuser /usr/local/bin/new-entrypoint.sh
 
 # Set the entrypoint to our custom script
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/new-entrypoint.sh"]
 
 # Run uvicorn server when the container launches as non-root user
 USER appuser

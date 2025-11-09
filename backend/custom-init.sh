@@ -11,13 +11,13 @@ done
 echo "PostgreSQL is ready!"
 
 # Connect to PostgreSQL and create the appuser role if it doesn't exist
-export PGPASSWORD=apppassword
+export PGPASSWORD=${POSTGRES_PASSWORD}
 psql -v ON_ERROR_STOP=1 --username postgres <<-EOSQL
   DO $$
   BEGIN
     IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'appuser') THEN
       PERFORM dml_instead_of_trigger_prologue();
-      CREATE ROLE appuser WITH LOGIN PASSWORD 'apppassword';
+      CREATE ROLE appuser WITH LOGIN PASSWORD '${APPUSER_PASSWORD}';
       ALTER ROLE appuser CREATEDB;
     END IF;
   END $$;

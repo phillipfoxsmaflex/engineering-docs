@@ -27,7 +27,8 @@ HEALTHCHECK --interval=30s --timeout=5s \
 
 # Copy entrypoint script and make it executable
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN dos2unix /usr/local/bin/docker-entrypoint.sh && \
+    chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Set the entrypoint to our custom script
 ENTRYPOINT ["docker-entrypoint.sh"]

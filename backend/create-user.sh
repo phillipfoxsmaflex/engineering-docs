@@ -12,13 +12,13 @@ done
 echo "Database is ready, creating appuser..."
 
 # Create the appuser role if it doesn't exist
-PGPASSWORD=$DB_PASSWORD psql -h db -U $DB_USER -d $DB_NAME -c "
+PGPASSWORD=postgres_password psql -h db -U postgres -d engineering_docs -c "
 DO \$\$
 BEGIN
   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'appuser') THEN
     CREATE ROLE appuser WITH LOGIN PASSWORD 'apppassword';
     ALTER ROLE appuser CREATEDB;
-    GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO appuser;
+    GRANT ALL PRIVILEGES ON DATABASE engineering_docs TO appuser;
     RAISE NOTICE 'Created appuser role';
   ELSE
     RAISE NOTICE 'appuser role already exists';

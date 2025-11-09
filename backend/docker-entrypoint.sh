@@ -5,6 +5,12 @@
 #!/bin/bash
 set -e
 
+# Make sure we're using bash
+if [ "$(id -u)" = "0" ]; then
+  echo "Switching to non-root user..."
+  exec gosu appuser "$0" "$@"
+fi
+
 # Wait for database
 echo "Waiting for database..."
 while ! nc -z db 5432; do

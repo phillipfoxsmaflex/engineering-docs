@@ -1,7 +1,7 @@
 
 
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use an official Python runtime as a parent image, explicitly for ARM architecture
+FROM python:3.11-slim-bullseye
 
 # Set the working directory in the container
 WORKDIR /app
@@ -10,7 +10,14 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    netcat-openbsd \
+    gosu \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir -r requirements.txt
 
 # Create a non-root user to run the application
 RUN useradd -m appuser && chown -R appuser:appuser /app
@@ -27,10 +34,11 @@ HEALTHCHECK --interval=30s --timeout=5s \
 
 # Copy entrypoint script and make it executable
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh && \
+    chown appuser:appuser /usr/local/bin/docker-entrypoint.sh
 
 # Set the entrypoint to our custom script
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Run uvicorn server when the container launches as non-root user
 USER appuser

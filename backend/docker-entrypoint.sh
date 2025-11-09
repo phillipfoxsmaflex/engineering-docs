@@ -7,7 +7,7 @@ set -e
 
 # Wait for database
 echo "Waiting for database..."
-while ! nc -z $DB_HOST $DB_PORT; do
+while ! nc -z db 5432; do
   sleep 1
 done
 echo "Database is ready!"
@@ -19,8 +19,8 @@ python init_db.py
 # Create uploads directory if it doesn't exist
 mkdir -p /app/uploads
 
-# Start the application with gunicorn in production mode
-echo "Starting application with gunicorn..."
-exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+# Start the application with uvicorn directly (more compatible)
+echo "Starting application with uvicorn..."
+exec uvicorn main:app --host 0.0.0.0 --port 8000
 
 

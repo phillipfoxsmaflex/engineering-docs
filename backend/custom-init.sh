@@ -9,13 +9,15 @@ echo "User: $POSTGRES_USER"
 
 # Ensure the main database exists
 echo "📋 Ensuring database exists..."
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "postgres" <<-EOSQL
-  SELECT 'Database check' as status;
-  
-  -- Create database if it doesn't exist
-  SELECT 'Creating database if needed...' as status;
-  CREATE DATABASE IF NOT EXISTS $POSTGRES_DB;
-EOSQL
+# Check if database exists and create it if it doesn't
+DB_EXISTS=$(psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "postgres" -tAc "SELECT 1 FROM pg_database WHERE datname='$POSTGRES_DB'")
+if [ "$DB_EXISTS" != "1" ]; then
+  echo "Creating database $POSTGRES_DB..."
+  psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "postgres" -c "CREATE DATABASE $POSTGRES_DB;"
+  echo "✅ Database $POSTGRES_DB created successfully"
+else
+  echo "✅ Database $POSTGRES_DB already exists"
+fi
 
 # Create the appuser role
 echo "👤 Creating appuser role..."

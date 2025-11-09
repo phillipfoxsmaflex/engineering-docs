@@ -10,9 +10,12 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
   DO \$\$
   BEGIN
     IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'appuser') THEN
-      CREATE ROLE appuser WITH LOGIN PASSWORD '$APPUSER_PASSWORD';
+      CREATE ROLE appuser WITH LOGIN PASSWORD 'apppassword';
       ALTER ROLE appuser CREATEDB;
       GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO appuser;
+      RAISE NOTICE 'Created appuser role successfully';
+    ELSE
+      RAISE NOTICE 'appuser role already exists';
     END IF;
   END \$\$;
 EOSQL

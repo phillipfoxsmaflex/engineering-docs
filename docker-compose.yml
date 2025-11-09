@@ -2,9 +2,7 @@
 
 services:
   db:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.postgres
+    image: postgres:15-alpine
     container_name: engineering_docs_db
     environment:
       POSTGRES_USER: ${DB_USER}

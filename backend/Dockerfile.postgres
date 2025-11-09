@@ -1,0 +1,15 @@
+
+
+FROM postgres:15-alpine
+
+# Copy our custom initialization script
+COPY init-db.sql /docker-entrypoint-initdb.d/init-db.sql
+
+# Add a script to run on container startup that ensures the appuser role exists
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Use our custom entrypoint
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["postgres"]
+
